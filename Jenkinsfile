@@ -13,16 +13,19 @@ pipeline {
         stage('Cleaning the project') {
             steps {
                sh "mvn clean"
+               echo 'clean the project'
             }
         }
         stage('Compiling the project') {
             steps {
                sh "mvn compile"
+               echo 'compile the project'
             }
         }
          stage('Junit/Mockito Tests') {
             steps {
                 sh "mvn test"
+                echo 'tests unitaires'
             }
 
              post {
@@ -35,6 +38,7 @@ pipeline {
             steps {
               withSonarQubeEnv('sonarQubeServer') {
                 sh 'mvn sonar:sonar'
+                echo 'test statique'
               }
             }
 
@@ -43,6 +47,7 @@ pipeline {
          stage('Artifact construction') {
             steps {
                 sh "mvn package"
+                echo 'construire artifact'
             }
 
         }
@@ -70,6 +75,7 @@ pipeline {
             steps {
                 script{
                     sh "docker build -t baherammari/app-spring-repo ."
+                    echo 'construire image docker'
                 }
                 }
             }
@@ -84,6 +90,7 @@ pipeline {
             steps {
                 script{
                     sh 'docker push baherammari/app-spring-repo'
+                    echo 'push the image'
                 }
                 }
             }
@@ -91,8 +98,21 @@ pipeline {
          stage('Run Spring && MySQL Containers') {
                  steps {
                    sh 'docker-compose up -d'
+                   echo 'executer les conteneurs'
                         }
                     }
 
 }
+post {
+        success {
+	        mail to: "baher.ammari@esprit.tn",
+            subject: "Pipeline Backend Success ",
+            body: "Welcome to DevOps project Backend : Success on job ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL}"
+        }
+	    failure {
+            mail to: "baher.ammari@esprit.tn",
+            subject: "Pipeline backend Failure",
+            body: "Welcome to DevOps project Backend : Failure on job ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL} "
+            }
+    }
 }
