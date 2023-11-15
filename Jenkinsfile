@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-               git branch: 'main', url: 'https://github.com/devopsSpring/Devops'
+               git branch: 'main', url: 'https://github.com/BaherAmmari/Devops-maven'
             }
         }
         stage('Cleaning the project') {
