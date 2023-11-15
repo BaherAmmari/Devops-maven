@@ -105,14 +105,14 @@ pipeline {
 }
 post {
         success {
-	        mail to: "baher.ammari@esprit.tn",
-            subject: "Pipeline Backend Success ",
-            body: "Welcome to DevOps project Backend : Success on job ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL}"
+	    mail to: "baher.ammari@esprit.tn",
+            subject: "Success of the backend pipeline ",
+            body: "Welcome to DevOps project Maven : Success on job ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL}"
         }
 	    failure {
             mail to: "baher.ammari@esprit.tn",
-            subject: "Pipeline backend Failure",
-            body: "Welcome to DevOps project Backend : Failure on job ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL} "
+            subject: "Failure of the backend pipeline",
+            body: "Welcome to DevOps project Maven : Failure on job ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL} "
             }
     }
 }
